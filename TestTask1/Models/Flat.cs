@@ -13,7 +13,7 @@ namespace TestTask1.Models
         public string FlatTypeFull { get; set; }
         public int HouseID { get; set; }
         public House House { get; set; }
-        public ICollection<FlatOwner> FlatOwners { get; set;}
+        public ICollection<Owner> Owners { get; set;}
 
         public override string ToString()
         {

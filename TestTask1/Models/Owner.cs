@@ -11,7 +11,7 @@ namespace TestTask1.Models
         public string OwnerFirstName { get; set; }
         public string OwnerLastName { get; set; }
         public string? OwnerFatherName { get; set; }
-        public ICollection<FlatOwner> FlatOwner { get; set;}
+        public ICollection<Flat> Flat { get; set;}
 
         public override string ToString()
         {
