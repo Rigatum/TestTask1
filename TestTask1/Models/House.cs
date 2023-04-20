@@ -12,7 +12,7 @@ namespace TestTask1.Models
         public string HouseType { get; set; }
         public string HouseTypeFull { get; set; }
         public int StreetID { get; set; }
-        public City Street { get; set; }
+        public Street Street { get; set; }
         public ICollection<Flat> Flats { get; set;}
 
         public override string ToString()
