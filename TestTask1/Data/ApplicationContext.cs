@@ -14,11 +14,11 @@ namespace TestTask1.Data
         {
         }
 
-        public DbSet<City> City { get; set; }
-        public DbSet<Flat> Flat { get; set; }
-        public DbSet<House> House { get; set; }
-        public DbSet<Owner> Owner { get; set; }
-        public DbSet<Street> Street { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Flat> Flats { get; set; }
+        public DbSet<House> Houses { get; set; }
+        public DbSet<Owner> Owners { get; set; }
+        public DbSet<Street> Streets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
