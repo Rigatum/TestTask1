@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using TestTask1.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<ApplicationContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Data:DbContext:LocalConnectionString")));
 
 var app = builder.Build();
 
