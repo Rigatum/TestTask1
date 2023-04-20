@@ -9,16 +9,18 @@ namespace TestTask1.Data
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext (DbContextOptions<ApplicationContext> options)
-            : base(options)
-        {
-        }
-
         public DbSet<City> Cities { get; set; }
         public DbSet<Flat> Flats { get; set; }
         public DbSet<House> Houses { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Street> Streets { get; set; }
+        
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
+        {
+            Database.EnsureCreated();
+        }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
