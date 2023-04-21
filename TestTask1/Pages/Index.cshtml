@@ -4,6 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>
+<h2>Список городов</h2>
+<p><a href="/Create">Добавить горожд</a></p>
+<table>
+    <tr><th>Имя</th><th>Возраст</th></tr>
+    @foreach (var city in Model.Cities)
+    {
+        <tr><td>@city.ToString()</td></tr>
+    }
+</table>
