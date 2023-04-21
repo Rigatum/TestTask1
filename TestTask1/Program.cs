@@ -1,7 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 using TestTask1.Data;
-
+using Dadata;
+using TestTask1.Models;
+using TestTask1.Services;
+using TestTask1.Contracts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +12,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    
+builder.Services.AddSingleton<IAddressService, AddressService>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
