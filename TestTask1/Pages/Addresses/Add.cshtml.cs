@@ -9,6 +9,26 @@ using TestTask1.Contracts;
 
 namespace TestTask1.Pages.Addresses
 {
+public class GameDataModel
+{
+    public string Name { get; set; }
+    public string ID { get; set; }
+
+    public List<GameDataModel> GetData()
+    {
+        List<GameDataModel> AutoCompleteData = new List<GameDataModel>()
+        {
+                new GameDataModel() { ID= "Game1", Name= "Badminton" },
+                new GameDataModel() { ID= "Game2", Name= "Basketball" },
+                new GameDataModel() { ID= "Game3", Name= "Cricket" },
+                new GameDataModel() { ID= "Game4", Name= "Football" },
+                new GameDataModel() { ID= "Game5", Name= "Golf" },
+                new GameDataModel() { ID= "Game6", Name= "Hockey" },
+                new GameDataModel() { ID= "Game7", Name= "Tennis"}
+        };
+        return AutoCompleteData;
+    }
+}
     public class Add : PageModel
     {
         [BindProperty]
