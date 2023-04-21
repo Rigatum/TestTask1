@@ -1,0 +1,18 @@
+@page
+@model TestTask1.Pages.Addresses.Add
+@{
+    ViewData["Title"] = "Добавить новый адрес";
+}
+
+<form method="post">
+    <h1 class="mb-3">@ViewData["Title"]</h1>
+
+    <div class="mb-3">
+        <label class="form-label">Введите адрес</label>
+        <input type="text" class="form-control" asp-for="dirtyAddress"/>
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </div>
+</form>
