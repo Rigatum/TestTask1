@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestTask1.Models
+namespace TestTask1.Models.SecretKeys
 {
     public class DadataClientSettings
     {
