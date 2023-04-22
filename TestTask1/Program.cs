@@ -14,11 +14,9 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
 builder.Services.AddSingleton<IAddressService, AddressService>();
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2VFhhQlJBfVpdX2JWfFN0RnNbdV1wflFEcC0sT3RfQF5jTXxSdkdgW3tednZTQA==");
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
