@@ -10,7 +10,6 @@ namespace TestTask1.Models
         public int ID { get; set; }
         public string FlatName { get; set; }
         public string FlatType { get; set; }
-        public string FlatTypeFull { get; set; }
         public int HouseID { get; set; }
         public House House { get; set; }
         public ICollection<Owner> Owners { get; set;}
