@@ -13,7 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
-builder.Services.AddSingleton<IAddressService, AddressService>();
+//builder.Services.AddSingleton<IAddressService, AddressService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
