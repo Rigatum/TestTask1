@@ -9,12 +9,11 @@ namespace TestTask1.Models
     {
         public Guid ID { get; set; }
         public string CityName { get; set; }
-        public string CityType { get; set; }
         public ICollection<Street> Streets { get; set; }
         
         public override string ToString()
         {
-            return $"{CityType}. {CityName}";
+            return CityName;
         }
     }
 }

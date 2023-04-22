@@ -9,14 +9,13 @@ namespace TestTask1.Models
     {
         public int Guid { get; set; }
         public string StreetName { get; set; }
-        public string StreetType { get; set; }
         public int CityID { get; set; }
         public City City { get; set; }
         public ICollection<House> Houses { get; set;}
 
         public override string ToString()
         {
-            return $"{StreetType}. {StreetName}";
+            return StreetName;
         }
     }
 }
