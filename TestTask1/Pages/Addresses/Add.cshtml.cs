@@ -13,17 +13,11 @@ namespace TestTask1.Pages.Addresses
     {
         [BindProperty]
         public string address { get; set; }
-        public string token { get; set; }
         private readonly ILogger<Add> _logger;
-        private readonly DadataClientSettings _dadataClientSettings;
-        private readonly IConfiguration _configuration;
 
-        public Add(ILogger<Add> logger, IConfiguration Configuration)
+        public Add(ILogger<Add> logger)
         {
             _logger = logger;
-            _configuration = Configuration;
-            _dadataClientSettings = _configuration.GetSection("DadataClient").Get<DadataClientSettings>();
-            token = _dadataClientSettings.token;
         }
 
         public void OnGet()
