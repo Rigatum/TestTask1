@@ -2,20 +2,143 @@
 @model TestTask1.Pages.Addresses.Add
 @{
     ViewData["Title"] = "Добавить новый адрес";
-    var localData = new GameDataModel().GetData();
 }
 
 <form method="post">
-    <h1 class="mb-3">@ViewData["Title"]</h1>
-    <div class="container">
-        <h3>Add Customer</h3>
-            <label>Адрес:</label><br />
-            <ejs-autocomplete id="dirtyAddress" dataSource="@localData" highlight="true" autofill="true"
-            placeholder="Select a name" popupHeight="400px" popupWidth="250px">
-                <e-autocomplete-fields value="Name"></e-autocomplete-fields>
-            </ejs-autocomplete>
-            <div class="mb-3">
-                <button type="submit" class="btn btn-primary">Сохранить</button>
+    <section class="container">
+        <h1 class="mb-3">@ViewData["Title"]</h1>
+        <label>Адрес:</label><br />
+        <div class="row">
+            <input id="address" name="address" type="text" />
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="city">Город</label>
             </div>
-    </div>
+            <div class="value ">
+                <input type="text" id="city">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="street">Улица</label>
+            </div>
+            <div class="value">
+                <input type="text" id="street">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="house">Дом</label>
+            </div>
+            <div class="value">
+                <input type="text" id="house">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="flat">Квартира</label>
+            </div>
+            <div class="value">
+                <input type="text" id="flat">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="FIO_owner">ФИО собственника</label>
+            </div>
+            <div class="value">
+                <input type="text" id="FIO_owner">
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">
+                <label for="flat">Геокоорд.</label>
+            </div>
+            <div class="value">
+                <span id="geo"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+    </section>
 </form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/css/suggestions.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/js/jquery.suggestions.min.js"></script>
+<script>
+    var token = "ef315753adf2b34977b4e9dbc812ebd166080a29";
+
+    function join(arr /*, separator */) {
+        var separator = arguments.length > 1 ? arguments[1] : ", ";
+        return arr.filter(function(n){return n}).join(separator);
+    }
+
+    function geoQuality(qc_geo) {
+        var localization = {
+            "0": "точные",
+            "1": "ближайший дом",
+            "2": "улица",
+            "3": "населенный пункт",
+            "4": "город"
+        };
+        return localization[qc_geo] || qc_geo;
+    }
+
+    function geoLink(address) {
+    return join(["<a target=\"_blank\" href=\"", 
+                "https://maps.yandex.ru/?text=", 
+                address.geo_lat, ",", address.geo_lon, "\">", 
+                address.geo_lat, ", ", address.geo_lon, "</a>"], "");
+    }
+
+    function showCity(address) {
+        $("#city").val(join([
+            join([address.city_type, address.city], " "),
+            join([address.settlement_type, address.settlement], " ")
+        ]));
+    }
+
+    function showStreet(address) {
+        $("#street").val(
+            join([address.street_type, address.street], " ")
+        );
+    }
+
+    function showHouse(address) {
+        $("#house").val(join([
+            join([address.house_type, address.house], " "),
+            join([address.block_type, address.block], " ")
+        ]));
+    }
+
+    function showFlat(address) {
+        $("#flat").val(
+            join([address.flat_type, address.flat], " ")
+        );
+    }
+
+    function showGeo(address) {
+    if (address.qc_geo != "5") {
+        var geo = geoLink(address) + " (" + geoQuality(address.qc_geo) + ")";
+        $("#geo").html(geo);
+    }
+    }
+
+    function showSelected(suggestion) {
+        var address = suggestion.data;
+        showCity(address);
+        showStreet(address);
+        showHouse(address);
+        showFlat(address); 
+        showGeo(address);
+    }
+
+    $("#address").suggestions({
+        token: token,
+        type: "ADDRESS",
+        onSelect: showSelected
+    });
+</script>
