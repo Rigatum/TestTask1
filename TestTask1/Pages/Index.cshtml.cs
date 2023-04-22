@@ -1,25 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TestTask1.Data;
-using TestTask1.Models;
+using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace TestTask1.Pages;
 
 public class IndexModel : PageModel
 {
-    ApplicationContext context;
-    public List<City> Cities { get; private set; } = new();
+    private ApplicationContext _db;
+    public List<Street> Streets { get; private set; } = new();
     private readonly ILogger<IndexModel> _logger;
 
     public IndexModel(ILogger<IndexModel> logger, ApplicationContext db)
     {
         _logger = logger;
-        context = db;
+        _db = db;
     }
 
     public void OnGet()
     {
-        Cities = context.Cities.Take(10).ToList();
+        Streets = _db.Streets.Include(u => u.City).ToList();
+
+        foreach (var street in Streets)
+            Console.WriteLine($"{street.City.CityName} - {street.StreetName}");
     }
 }
