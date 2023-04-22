@@ -48,6 +48,7 @@ namespace TestTask1.Pages.Addresses
             Street streetExist = null;
             House houseExist = null;
             Flat flatExist = null;
+            Owner ownerExist = null;
 
             cityExist = _db.Cities.FirstOrDefault(c => c.CityName == cityDomainModel.CityName);
             if (cityExist != null)
@@ -56,7 +57,9 @@ namespace TestTask1.Pages.Addresses
                 houseExist = _db.Houses.FirstOrDefault(h => h.HouseName == houseDomainModel.HouseName && h.StreetID == streetExist.ID);
             if (houseExist != null)
                 flatExist = _db.Flats.FirstOrDefault(f => f.FlatName == flatDomainModel.FlatName && f.HouseID == houseExist.ID);
-
+            if (flatExist != null)
+                ownerExist = _db.Owners.FirstOrDefault(o => o.FIO == ownerDomainModel.FIO && o.FlatID == flatExist.ID);
+            
             if (cityExist == null) //Добавление  города, улицы, дома, квартиры и собственника
             {
                 System.Console.WriteLine("Города нет");
@@ -66,47 +69,51 @@ namespace TestTask1.Pages.Addresses
                 _db.Flats.Add(flatDomainModel);
                 _db.Owners.Add(ownerDomainModel);
                 _db.SaveChanges();
+                ViewData["Message"] = "Адрес был добавлен";
             }
-            else if (cityExist != null) // Добавление улицы, дома, квартиры и собственника
+            else if (cityExist != null && streetExist == null && houseExist == null && flatExist == null && ownerExist == null) // Добавление улицы, дома, квартиры и собственника
             {
-                System.Console.WriteLine("Город есть");
                 streetDomainModel.City = cityExist;
                 _db.Streets.Add(streetDomainModel);
                 _db.Houses.Add(houseDomainModel);
                 _db.Flats.Add(flatDomainModel);
                 _db.Owners.Add(ownerDomainModel);
                 _db.SaveChanges();
+                ViewData["Message"] = "Улица, дом, квартира и собственник были добавлены к существующему городу";
             }
-            else if (streetExist != null) // Добавление дома, квартиры и собственника
+            else if (cityExist != null && streetExist != null && houseExist == null && flatExist == null && ownerExist == null) // Добавление дома, квартиры и собственника
             {
-                System.Console.WriteLine("Город и улица есть");
                 streetDomainModel.City = cityExist;
                 houseDomainModel.Street = streetExist;
                 _db.Houses.Add(houseDomainModel);
                 _db.Flats.Add(flatDomainModel);
                 _db.Owners.Add(ownerDomainModel);
                 _db.SaveChanges();
-
+                ViewData["Message"] = "Дом, квартира и собственник были добавлены к существующей улице";
             }
-            else if (houseExist != null) // Добавление квартиры и собственника
+            else if (cityExist != null && streetExist != null &&  houseExist != null && flatExist == null && ownerExist == null) // Добавление квартиры и собственника
             {
-                System.Console.WriteLine("Город, улица и дом есть");
                 streetDomainModel.City = cityExist;
                 houseDomainModel.Street = streetExist;
                 flatDomainModel.House = houseExist;
                 _db.Flats.Add(flatDomainModel);
                 _db.Owners.Add(ownerDomainModel);
                 _db.SaveChanges();
+                ViewData["Message"] = "Квартира и собственник были добавлены к существующему дому";
             }
-            else if (flatExist != null) // Добавление собственника
+            else if (cityExist != null && streetExist != null &&  houseExist != null && flatExist != null && ownerExist == null) // Добавление собственника
             {
-                System.Console.WriteLine("Город, улица, дом и квартира есть");
                 streetDomainModel.City = cityExist;
                 houseDomainModel.Street = streetExist;
                 flatDomainModel.House = houseExist;
                 ownerDomainModel.Flat = flatExist;
                 _db.Owners.Add(ownerDomainModel);
                 _db.SaveChanges();
+                ViewData["Message"] = "Собственник был добавлен к существующей квартире";
+            }
+            else
+            {
+                ViewData["Message"] = "Квартира с таким собственником уже существует";
             }
         }
     }

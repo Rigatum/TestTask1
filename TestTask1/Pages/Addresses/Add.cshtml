@@ -2,65 +2,78 @@
 @model TestTask1.Pages.Addresses.Add
 @{
     ViewData["Title"] = "Добавить новый адрес";
+    var message = ViewData["Message"]?.ToString();
 }
 
 <form method="post">
     <section class="container">
         <h1 class="mb-3">@ViewData["Title"]</h1>
-        <label>Адрес:</label><br />
-        <div class="row">
-            <input id="address" name="address" type="text" />
-        </div>
+        @if (message == "Квартира с таким собственником уже существует")
+        {
+            <div class="alert alert-danger" role="alert">
+                @message
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(message))
+        {
+            <div class="alert alert-success" role="alert">
+                @message
+            </div>
+        }
+
         <div class="row">
             <div class="label">
-                <label for="city">Город</label>
+                <label for="address">Адрес:</label>
             </div>
             <div class="value ">
-                <input type="text" id="city" asp-for="addCityViewModel.CityName">
+                <input type="text" id="address" name="address" >
             </div>
         </div>
         <div class="row">
-            <div class="label">
-                <label for="street">Улица</label>
+            <div class="col">
+                <div class="label">
+                    <label for="city">Город</label>
+                </div>
+                <div class="value ">
+                    <input type="text" id="city" asp-for="addCityViewModel.CityName">
+                </div>
             </div>
-            <div class="value">
-                <input type="text" id="street" asp-for="addStreetViewModel.StreetName">
+            
+            <div class="col">
+                <div class="label">
+                    <label for="street">Улица</label>
+                </div>
+                <div class="value">
+                    <input type="text" id="street" asp-for="addStreetViewModel.StreetName">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="house">Дом</label>
+            <div class="col">
+                <div class="label">
+                    <label for="house">Дом</label>
+                </div>
+                <div class="value">
+                    <input type="text" id="house" asp-for="addHouseViewModel.HouseName">
+                </div>
             </div>
-            <div class="value">
-                <input type="text" id="house" asp-for="addHouseViewModel.HouseName">
+            <div class="col">
+                <div class="label">
+                    <label for="flat">Квартира</label>
+                </div>
+                <div class="value">
+                    <input type="text" id="flat" asp-for="addFlatViewModel.FlatName">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="flat">Квартира</label>
+            <div class="col">
+                <div class="label">
+                    <label for="FIO_owner">ФИО собственника</label>
+                </div>
+                <div class="value">
+                    <input type="text" id="FIO_owner" asp-for="addOwnerViewModel.FIO">
+                </div>
             </div>
-            <div class="value">
-                <input type="text" id="flat" asp-for="addFlatViewModel.FlatName">
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="FIO_owner">ФИО собственника</label>
-            </div>
-            <div class="value">
-                <input type="text" id="FIO_owner" asp-for="addOwnerViewModel.FIO">
-            </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="flat">Геокоорд.</label>
-            </div>
-            <div class="value">
-                <span id="geo"></span>
-            </div>
-        </div>
-        <div class="mb-3">
-            <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
     </section>
 </form>
