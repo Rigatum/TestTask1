@@ -21,22 +21,7 @@ namespace TestTask1.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FlatOwner", b =>
-                {
-                    b.Property<int>("FlatsID")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OwnersID")
-                        .HasColumnType("integer");
-
-                    b.HasKey("FlatsID", "OwnersID");
-
-                    b.HasIndex("OwnersID");
-
-                    b.ToTable("FlatOwner");
-                });
-
-            modelBuilder.Entity("TestTask1.Models.City", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.City", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -53,7 +38,7 @@ namespace TestTask1.Migrations
                     b.ToTable("City", (string)null);
                 });
 
-            modelBuilder.Entity("TestTask1.Models.Flat", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Flat", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -75,7 +60,7 @@ namespace TestTask1.Migrations
                     b.ToTable("Flat", (string)null);
                 });
 
-            modelBuilder.Entity("TestTask1.Models.House", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.House", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -97,7 +82,7 @@ namespace TestTask1.Migrations
                     b.ToTable("House", (string)null);
                 });
 
-            modelBuilder.Entity("TestTask1.Models.Owner", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Owner", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -109,12 +94,17 @@ namespace TestTask1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("FlatID")
+                        .HasColumnType("integer");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("FlatID");
 
                     b.ToTable("Owner", (string)null);
                 });
 
-            modelBuilder.Entity("TestTask1.Models.Street", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Street", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -136,24 +126,9 @@ namespace TestTask1.Migrations
                     b.ToTable("Street", (string)null);
                 });
 
-            modelBuilder.Entity("FlatOwner", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Flat", b =>
                 {
-                    b.HasOne("TestTask1.Models.Flat", null)
-                        .WithMany()
-                        .HasForeignKey("FlatsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TestTask1.Models.Owner", null)
-                        .WithMany()
-                        .HasForeignKey("OwnersID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TestTask1.Models.Flat", b =>
-                {
-                    b.HasOne("TestTask1.Models.House", "House")
+                    b.HasOne("TestTask1.Models.Domain.House", "House")
                         .WithMany("Flats")
                         .HasForeignKey("HouseID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -162,9 +137,9 @@ namespace TestTask1.Migrations
                     b.Navigation("House");
                 });
 
-            modelBuilder.Entity("TestTask1.Models.House", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.House", b =>
                 {
-                    b.HasOne("TestTask1.Models.Street", "Street")
+                    b.HasOne("TestTask1.Models.Domain.Street", "Street")
                         .WithMany("Houses")
                         .HasForeignKey("StreetID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -173,9 +148,20 @@ namespace TestTask1.Migrations
                     b.Navigation("Street");
                 });
 
-            modelBuilder.Entity("TestTask1.Models.Street", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Owner", b =>
                 {
-                    b.HasOne("TestTask1.Models.City", "City")
+                    b.HasOne("TestTask1.Models.Domain.Flat", "Flat")
+                        .WithMany("Owners")
+                        .HasForeignKey("FlatID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flat");
+                });
+
+            modelBuilder.Entity("TestTask1.Models.Domain.Street", b =>
+                {
+                    b.HasOne("TestTask1.Models.Domain.City", "City")
                         .WithMany("Streets")
                         .HasForeignKey("CityID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -184,17 +170,22 @@ namespace TestTask1.Migrations
                     b.Navigation("City");
                 });
 
-            modelBuilder.Entity("TestTask1.Models.City", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.City", b =>
                 {
                     b.Navigation("Streets");
                 });
 
-            modelBuilder.Entity("TestTask1.Models.House", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Flat", b =>
+                {
+                    b.Navigation("Owners");
+                });
+
+            modelBuilder.Entity("TestTask1.Models.Domain.House", b =>
                 {
                     b.Navigation("Flats");
                 });
 
-            modelBuilder.Entity("TestTask1.Models.Street", b =>
+            modelBuilder.Entity("TestTask1.Models.Domain.Street", b =>
                 {
                     b.Navigation("Houses");
                 });
