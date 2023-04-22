@@ -48,10 +48,6 @@ namespace TestTask1.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("CityType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("ID");
 
                     b.ToTable("City", (string)null);
@@ -66,10 +62,6 @@ namespace TestTask1.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
 
                     b.Property<string>("FlatName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FlatType")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -92,10 +84,6 @@ namespace TestTask1.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ID"));
 
                     b.Property<string>("HouseName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("HouseType")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -138,10 +126,6 @@ namespace TestTask1.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("StreetName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("StreetType")
                         .IsRequired()
                         .HasColumnType("text");
 
