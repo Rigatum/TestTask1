@@ -8,14 +8,12 @@ namespace TestTask1.Models
     public class Owner
     {
         public int ID { get; set; }
-        public string OwnerFirstName { get; set; }
-        public string OwnerLastName { get; set; }
-        public string? OwnerFatherName { get; set; }
-        public ICollection<Flat> Flat { get; set;}
+        public string FIO { get; set; }
+        public ICollection<Flat> Flats { get; set;}
 
         public override string ToString()
         {
-            return $"{OwnerLastName} {OwnerFirstName} {OwnerFatherName}";
+            return FIO;
         }   
     }
 }
