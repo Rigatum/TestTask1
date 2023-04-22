@@ -16,7 +16,7 @@
                 <label for="city">Город</label>
             </div>
             <div class="value ">
-                <input type="text" id="city">
+                <input type="text" id="city" asp-for="addCityViewModel.CityName">
             </div>
         </div>
         <div class="row">
@@ -24,7 +24,7 @@
                 <label for="street">Улица</label>
             </div>
             <div class="value">
-                <input type="text" id="street">
+                <input type="text" id="street" asp-for="addStreetViewModel.StreetName">
             </div>
         </div>
         <div class="row">
@@ -32,7 +32,7 @@
                 <label for="house">Дом</label>
             </div>
             <div class="value">
-                <input type="text" id="house">
+                <input type="text" id="house" asp-for="addHouseViewModel.HouseName">
             </div>
         </div>
         <div class="row">
@@ -40,7 +40,7 @@
                 <label for="flat">Квартира</label>
             </div>
             <div class="value">
-                <input type="text" id="flat">
+                <input type="text" id="flat" asp-for="addFlatViewModel.FlatName">
             </div>
         </div>
         <div class="row">
@@ -48,7 +48,7 @@
                 <label for="FIO_owner">ФИО собственника</label>
             </div>
             <div class="value">
-                <input type="text" id="FIO_owner">
+                <input type="text" id="FIO_owner" asp-for="addOwnerViewModel.FIO">
             </div>
         </div>
         <div class="row">
