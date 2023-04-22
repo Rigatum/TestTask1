@@ -7,7 +7,7 @@ namespace TestTask1.Models
 {
     public class City
     {
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string CityName { get; set; }
         public ICollection<Street> Streets { get; set; }
         

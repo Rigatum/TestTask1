@@ -7,7 +7,7 @@ namespace TestTask1.Models
 {
     public class Owner
     {
-        public int Guid { get; set; }
+        public int ID { get; set; }
         public string FIO { get; set; }
         public ICollection<Flat> Flats { get; set;}
 

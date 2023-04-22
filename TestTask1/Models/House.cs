@@ -7,7 +7,7 @@ namespace TestTask1.Models
 {
     public class House
     {
-        public Guid ID { get; set; }
+        public int ID { get; set; }
         public string HouseName { get; set; }
         public int StreetID { get; set; }
         public Street Street { get; set; }
