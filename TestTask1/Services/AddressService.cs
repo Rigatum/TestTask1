@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dadata;
 using Dadata.Model;
 using TestTask1.Models;
+using TestTask1.Models.SecretKeys;
 using TestTask1.Contracts;
 namespace TestTask1.Services
 {
