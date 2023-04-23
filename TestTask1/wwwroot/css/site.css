@@ -22,5 +22,29 @@ body {
 }
 .submit-button{
   padding-top: 10px;
-  margin-left: 40px;
+  margin-left: 164px;
+}
+#address
+{
+  width: 438px;
+}
+#city
+{
+  width: 438px;
+}
+#street
+{
+  width: 438px;
+}
+#house
+{
+  width: 438px;
+}
+#flat
+{
+  width: 438px;
+}
+#FIO_owner
+{
+  width: 438px;
 }
