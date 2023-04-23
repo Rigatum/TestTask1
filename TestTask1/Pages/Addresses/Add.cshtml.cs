@@ -10,7 +10,6 @@ using TestTask1.Models.Domain;
 using TestTask1.Models.ViewModels;
 using TestTask1.Pages;
 using TestTask1.Data;
-using TestTask1.Contracts;
 namespace TestTask1.Pages.Addresses
 {
     public class Add : PageModel
