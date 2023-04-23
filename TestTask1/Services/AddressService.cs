@@ -7,11 +7,13 @@ using TestTask1.Contracts;
 using TestTask1.Data;
 using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using TestTask1.Models.Domain;
 namespace TestTask1.Services
 {
     public class AddressService : IAddressService
     {
         private ApplicationContext _db { get; set; }
+        public List<Address> Addresses { get; set; }
         public AddressService(ApplicationContext db)
         {
             _db = db;
@@ -101,6 +103,22 @@ namespace TestTask1.Services
             {
                 return  "Квартира с таким собственником уже существует";
             }
+        }
+
+        public List<Address> GetAddresses()
+        {
+            var addresses = from c in _db.Cities
+                join s in _db.Streets on c.ID equals s.CityID
+                join h in _db.Houses on s.ID equals h.StreetID
+                join f in _db.Flats on h.ID equals f.HouseID
+                join o in _db.Owners on f.ID equals o.FlatID
+                select new Address{
+                    CityName = c.CityName, ID = c.ID,
+                    StreetName = s.StreetName, CityID = s.CityID,
+                    HouseName = h.HouseName, StreetID = h.StreetID,
+                    FlatName = f.FlatName, HouseID = f.HouseID,
+                    FIO = o.FIO, FlatID = o.FlatID};
+            return addresses.ToList();
         }
     }
 }
