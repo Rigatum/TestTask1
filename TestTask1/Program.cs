@@ -14,7 +14,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
     
-builder.Services.AddTransient<IAddressService, AddressService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
