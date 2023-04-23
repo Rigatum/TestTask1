@@ -3,9 +3,37 @@
 
 @model ManageObjectsModel
 
-<p><a href="/Addresses/Add">Добавить адрес</a></p>
+<h1 class="mb-3">Список адресов</h1>
 
+<a href="/Addresses/Add" class="btn btn-primary" role="button">Добавить адрес</a>
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+@if (Model.Addresses != null && Model.Addresses.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Населённый пункт</th>
+                <th>Улица</th>
+                <th>Дом</th>
+                <th>Квартира</th>
+                <th>Собственник</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Addresses)
+            {
+                <tr>
+                    <td>@item.CityName</td>
+                    <td>@item.StreetName</td>
+                    <td>@item.HouseName</td>
+                    <td>@item.FlatName</td>
+                    <td>@item.FIO</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Ни один адрес не был найден</p>
+}
