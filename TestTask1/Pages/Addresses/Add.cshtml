@@ -95,24 +95,6 @@
         return arr.filter(function(n){return n}).join(separator);
     }
 
-    function geoQuality(qc_geo) {
-        var localization = {
-            "0": "точные",
-            "1": "ближайший дом",
-            "2": "улица",
-            "3": "населенный пункт",
-            "4": "город"
-        };
-        return localization[qc_geo] || qc_geo;
-    }
-
-    function geoLink(address) {
-    return join(["<a target=\"_blank\" href=\"", 
-                "https://maps.yandex.ru/?text=", 
-                address.geo_lat, ",", address.geo_lon, "\">", 
-                address.geo_lat, ", ", address.geo_lon, "</a>"], "");
-    }
-
     function showCity(address) {
         $("#city").val(join([
             join([address.city_type, address.city], " "),
@@ -139,20 +121,12 @@
         );
     }
 
-    function showGeo(address) {
-    if (address.qc_geo != "5") {
-        var geo = geoLink(address) + " (" + geoQuality(address.qc_geo) + ")";
-        $("#geo").html(geo);
-    }
-    }
-
     function showSelected(suggestion) {
         var address = suggestion.data;
         showCity(address);
         showStreet(address);
         showHouse(address);
         showFlat(address); 
-        showGeo(address);
     }
 
     $("#address").suggestions({
