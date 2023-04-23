@@ -20,3 +20,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+.submit-button{
+  padding-top: 10px;
+  margin-left: 40px;
+}
