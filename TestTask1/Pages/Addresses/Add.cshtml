@@ -26,61 +26,62 @@
                 @message
             </div>
         }
+        <div class="form-group">
+            <div class="row">
+                <div class="label">
+                    <label for="address">Адрес:</label>
+                </div>
+                <div class="value ">
+                    <input type="text" class="form-control" id="address" name="address" >
+                </div>
+                <small id="emailHelp" class="form-text text-muted">Поля ниже автоматически заполнятся после выбора адреса</small>
+            </div>
 
-        <div class="row">
-            <div class="label">
-                <label for="address">Адрес:</label>
+            <div class="row">
+                <div class="label">
+                    <label for="city">Город</label>
+                </div>
+                <div class="value ">
+                    <input type="text" class="form-control"  id="city" asp-for="addCityViewModel.CityName">
+                </div>
             </div>
-            <div class="value ">
-                <input type="text" id="address" name="address" >
+            
+            <div class="row">
+                <div class="label">
+                    <label for="street">Улица</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="street" asp-for="addStreetViewModel.StreetName">
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="label">
-                <label for="city">Город</label>
+            <div class="row">
+                <div class="label">
+                    <label for="house">Дом</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="house" asp-for="addHouseViewModel.HouseName">
+                </div>
             </div>
-            <div class="value ">
-                <input type="text" id="city" asp-for="addCityViewModel.CityName">
+            <div class="row">
+                <div class="label">
+                    <label for="flat">Квартира</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="flat" asp-for="addFlatViewModel.FlatName">
+                </div>
             </div>
-        </div>
-        
-        <div class="row">
-            <div class="label">
-                <label for="street">Улица</label>
+            <div class="row">
+                <div class="label">
+                    <label for="FIO_owner">ФИО собственника</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="FIO_owner" asp-for="addOwnerViewModel.FIO">
+                </div>
             </div>
-            <div class="value">
-                <input type="text" id="street" asp-for="addStreetViewModel.StreetName">
-            </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="house">Дом</label>
-            </div>
-            <div class="value">
-                <input type="text" id="house" asp-for="addHouseViewModel.HouseName">
-            </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="flat">Квартира</label>
-            </div>
-            <div class="value">
-                <input type="text" id="flat" asp-for="addFlatViewModel.FlatName">
-            </div>
-        </div>
-        <div class="row">
-            <div class="label">
-                <label for="FIO_owner">ФИО собственника</label>
-            </div>
-            <div class="value">
-                <input type="text" id="FIO_owner" asp-for="addOwnerViewModel.FIO">
+            <div class="mb-3 submit-button" >
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </div>
-        <div class="mb-3 submit-button" >
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </div>
-
     </section>
 </form>
 
