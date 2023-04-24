@@ -20,7 +20,7 @@
                 @message
             </div>
         }
-        else if (message == "Заполните все поля")
+        else if (message == "Заполните все поля" || message == "Адрес не найден")
         {
             <div class="alert alert-danger" role="alert">
                 @message
@@ -84,8 +84,13 @@
                     <input type="text" class="form-control"  id="FIO_owner" asp-for="editOwnerViewModel.FIO">
                 </div>
             </div>
-            <div class="mb-3 submit-button" >
-                <button type="submit" class="btn btn-primary">Сохранить</button>
+            <div class="mb-3 d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary" asp-page-handler="Update">
+                    Сохранить
+                </button>
+                <button type="submit" class="btn btn-danger" asp-page-handler="Delete">
+                    Удалить
+                </button>
             </div>
         </div>
     </section>
