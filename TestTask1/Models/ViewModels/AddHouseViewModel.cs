@@ -8,5 +8,6 @@ namespace TestTask1.Models.ViewModels
     public class AddHouseViewModel : IViewModel
     {
         public string HouseName { get; set; }
+        public byte FlatsNumber { get; set; }
     }
 }
