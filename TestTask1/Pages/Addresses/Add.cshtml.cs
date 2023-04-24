@@ -35,12 +35,12 @@ namespace TestTask1.Pages.Addresses
             _addressService = addressService;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             ViewData["Message"] = await _addressService.Insert(addCityViewModel.CityName, addStreetViewModel.StreetName, 
                                                                 addHouseViewModel.HouseName, addFlatViewModel.FlatName, 
