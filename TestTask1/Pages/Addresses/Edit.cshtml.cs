@@ -41,7 +41,7 @@ namespace TestTask1.Pages.Addresses
             editFlatViewModel = (EditFlatViewModel)list[3];
             editOwnerViewModel = (EditOwnerViewModel)list[4];
         }
-        public async Task<IActionResult> OnPostAsync(int editCityViewModelID, int editStreetViewModelID, int editHouseViewModelID,
+        public async Task<IActionResult> OnPostUpdateAsync(int editCityViewModelID, int editStreetViewModelID, int editHouseViewModelID,
                                  int editFlatViewModelID, int editOwnerViewModelID)
         {
             editCityViewModel.ID = editCityViewModelID;
@@ -52,6 +52,15 @@ namespace TestTask1.Pages.Addresses
             ViewData["Message"] = await _addressSerivce.Update(editCityViewModel, editStreetViewModel, editHouseViewModel, editFlatViewModel, editOwnerViewModel);
             return Page();
         }
-
+        public async Task<IActionResult> OnPostDeleteAsync(int editCityViewModelID, int editStreetViewModelID, int editHouseViewModelID,
+                                 int editFlatViewModelID, int editOwnerViewModelID)
+        {
+            var message = await _addressSerivce.Delete(editCityViewModelID, editStreetViewModelID, editHouseViewModelID,
+                                                               editFlatViewModelID, editOwnerViewModelID);
+            if (message == "Адрес удалён")
+                return new RedirectToPageResult("/Index");
+            ViewData["Message"] = message;
+            return Page();
+        }
     }
 }
