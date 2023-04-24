@@ -139,14 +139,99 @@ namespace TestTask1.Services
                     FIO = o.FIO, OwnerID = o.ID};
             var listAddress = address.ToList();
 
+
             
             EditCityViewModel editCityViewModel = new EditCityViewModel() {ID = listAddress[0].ID, CityName = listAddress[0].CityName};
-            EditStreetViewModel editStreetViewModel = new EditStreetViewModel() {CityID = listAddress[0].StreetID, StreetName = listAddress[0].StreetName};
-            EditHouseViewModel editHouseViewModel = new EditHouseViewModel() {StreetID = listAddress[0].HouseID, HouseName = listAddress[0].HouseName};
-            EditFlatViewModel editFlatViewModel = new EditFlatViewModel() {HouseID = listAddress[0].FlatID, FlatName = listAddress[0].FlatName};
-            EditOwnerViewModel editOwnerViewModel = new EditOwnerViewModel() {FlatID = listAddress[0].OwnerID, FIO = listAddress[0].FIO};
+            EditStreetViewModel editStreetViewModel = new EditStreetViewModel() {ID = listAddress[0].StreetID, StreetName = listAddress[0].StreetName};
+            EditHouseViewModel editHouseViewModel = new EditHouseViewModel() {ID = listAddress[0].HouseID, HouseName = listAddress[0].HouseName};
+            EditFlatViewModel editFlatViewModel = new EditFlatViewModel() {ID = listAddress[0].FlatID, FlatName = listAddress[0].FlatName};
+            EditOwnerViewModel editOwnerViewModel = new EditOwnerViewModel() {ID = listAddress[0].OwnerID, FIO = listAddress[0].FIO};
 
             list = new List<IViewModel>() {editCityViewModel, editStreetViewModel, editHouseViewModel, editFlatViewModel, editOwnerViewModel};
         }
+        public async Task<string> Update(EditCityViewModel editCityViewModel, EditStreetViewModel editStreetViewModel, EditHouseViewModel editHouseViewModel,
+                                        EditFlatViewModel editFlatViewModel, EditOwnerViewModel editOwnerViewModel)
+        {
+            var cityDomainModel = await _db.Cities.FindAsync(editCityViewModel.ID);
+            var streetDomainModel = await _db.Streets.FindAsync(editStreetViewModel.ID);
+            var houseDomainModel = await _db.Houses.FindAsync(editHouseViewModel.ID);
+            var flatDomainModel = await _db.Flats.FindAsync(editFlatViewModel.ID);
+            var ownerDomainModel = await _db.Owners.FindAsync(editOwnerViewModel.ID);
+            City? cityExist = null;
+            Street? streetExist = null;
+            House? houseExist = null;
+            Flat? flatExist = null;
+            Owner? ownerExist = null;
+
+            if (String.IsNullOrWhiteSpace(editCityViewModel.CityName) || String.IsNullOrWhiteSpace(editStreetViewModel.StreetName)
+            || String.IsNullOrWhiteSpace(editHouseViewModel.HouseName) || String.IsNullOrWhiteSpace(editFlatViewModel.FlatName)
+            || String.IsNullOrWhiteSpace(editOwnerViewModel.FIO))
+                return "Заполните все поля";
+
+            cityExist = await _db.Cities.FirstOrDefaultAsync(c => c.CityName == editCityViewModel.CityName);
+            if (cityExist == null)
+            {
+                cityDomainModel.CityName = editCityViewModel.CityName;
+                streetDomainModel.StreetName = editStreetViewModel.StreetName;
+                houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                flatDomainModel.FlatName = editFlatViewModel.FlatName;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return "Адрес был обновлён";
+            }
+
+            streetExist = await _db.Streets.FirstOrDefaultAsync(s => s.StreetName == editStreetViewModel.StreetName && s.CityID == cityExist.ID);
+            if (streetExist == null)
+            {
+                streetDomainModel.City = cityExist;
+                streetDomainModel.StreetName = editStreetViewModel.StreetName;
+                houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                flatDomainModel.FlatName = editFlatViewModel.FlatName;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return  "Улица была обновлена";
+            }
+
+            houseExist = await _db.Houses.FirstOrDefaultAsync(h => h.HouseName == editHouseViewModel.HouseName && h.StreetID == streetExist.ID);
+            if (houseExist == null)
+            {
+                streetDomainModel.City = cityExist;
+                houseDomainModel.Street = streetExist;
+                houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                flatDomainModel.FlatName = editFlatViewModel.FlatName;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return  "Номер дом был обновлён";
+            }
+
+            flatExist = await _db.Flats.FirstOrDefaultAsync(f => f.FlatName == editFlatViewModel.FlatName && f.HouseID == houseExist.ID);
+            if (flatExist == null)
+            {
+                streetDomainModel.City = cityExist;
+                houseDomainModel.Street = streetExist;
+                flatDomainModel.House = houseExist;
+                flatDomainModel.FlatName = editFlatViewModel.FlatName;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return  "Номер квартиры был обновлён";
+            }
+
+            ownerExist = await _db.Owners.FirstOrDefaultAsync(o => o.FIO == editOwnerViewModel.FIO && o.FlatID == flatExist.ID);
+            if (ownerExist == null)
+            {
+                streetDomainModel.City = cityExist;
+                houseDomainModel.Street = streetExist;
+                flatDomainModel.House = houseExist;
+                ownerDomainModel.Flat = flatExist;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return  "Собственник был обновлён";
+            }
+            else
+            {
+                return  "Квартира с таким собственником уже существует";
+            }
+        }
+
     }
 }
