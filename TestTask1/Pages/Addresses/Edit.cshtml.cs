@@ -58,7 +58,7 @@ namespace TestTask1.Pages.Addresses
             var message = await _addressSerivce.Delete(editCityViewModelID, editStreetViewModelID, editHouseViewModelID,
                                                                editFlatViewModelID, editOwnerViewModelID);
             if (message == "Адрес удалён")
-                return new RedirectToPageResult("/Index");
+                return new RedirectToPageResult("/ManageObjects");
             ViewData["Message"] = message;
             return Page();
         }
