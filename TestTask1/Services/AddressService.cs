@@ -7,7 +7,7 @@ using TestTask1.Contracts;
 using TestTask1.Data;
 using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using TestTask1.Models.Domain;
+using TestTask1.Models.ViewModels;
 namespace TestTask1.Services
 {
     public class AddressService : IAddressService
@@ -119,6 +119,34 @@ namespace TestTask1.Services
                     FlatName = f.FlatName, HouseID = f.HouseID,
                     FIO = o.FIO, FlatID = o.FlatID};
             return addresses.ToList();
+        }
+        public void ConvertToViewModel(int ID, int CityID, int StreetID, int HouseID, int FlatID, 
+                                        out List<IViewModel> list)
+        {
+            var address = from c in _db.Cities
+                join s in _db.Streets on c.ID equals s.CityID
+                join h in _db.Houses on s.ID equals h.StreetID
+                join f in _db.Flats on h.ID equals f.HouseID
+                join o in _db.Owners on f.ID equals o.FlatID
+                where c.ID == ID && s.CityID == CityID && 
+                h.StreetID == StreetID && f.HouseID == HouseID
+                && o.FlatID == FlatID
+                select new{
+                    CityName = c.CityName, ID = c.ID,
+                    StreetName = s.StreetName, StreetID = s.ID,
+                    HouseName = h.HouseName, HouseID = h.ID,
+                    FlatName = f.FlatName, FlatID = f.ID,
+                    FIO = o.FIO, OwnerID = o.ID};
+            var listAddress = address.ToList();
+
+            
+            EditCityViewModel editCityViewModel = new EditCityViewModel() {ID = listAddress[0].ID, CityName = listAddress[0].CityName};
+            EditStreetViewModel editStreetViewModel = new EditStreetViewModel() {CityID = listAddress[0].StreetID, StreetName = listAddress[0].StreetName};
+            EditHouseViewModel editHouseViewModel = new EditHouseViewModel() {StreetID = listAddress[0].HouseID, HouseName = listAddress[0].HouseName};
+            EditFlatViewModel editFlatViewModel = new EditFlatViewModel() {HouseID = listAddress[0].FlatID, FlatName = listAddress[0].FlatName};
+            EditOwnerViewModel editOwnerViewModel = new EditOwnerViewModel() {FlatID = listAddress[0].OwnerID, FIO = listAddress[0].FIO};
+
+            list = new List<IViewModel>() {editCityViewModel, editStreetViewModel, editHouseViewModel, editFlatViewModel, editOwnerViewModel};
         }
     }
 }

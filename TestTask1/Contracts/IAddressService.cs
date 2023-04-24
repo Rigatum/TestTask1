@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestTask1.Models.Domain;
+using TestTask1.Models.ViewModels;
 namespace TestTask1.Contracts
 {
     public interface IAddressService
@@ -10,5 +11,7 @@ namespace TestTask1.Contracts
         public Task<string> Insert(string addCityViewModelCityName, string addStreetViewModelStreetName, string addHouseViewModelHouseName,
                                 string addFlatViewModelFlatName, string addOwnerViewModelFIO);
         public List<Address> GetAddresses();
+        public void ConvertToViewModel(int ID, int CityID, int StreetID, int HouseID, int FlatID, 
+                                        out List<IViewModel> list);
     }
 }
