@@ -15,5 +15,7 @@ namespace TestTask1.Contracts
                                         out List<IViewModel> list);
         public Task<string> Update(EditCityViewModel editCityViewModelCityName, EditStreetViewModel editStreetViewModelStreetName, EditHouseViewModel editHouseViewModelHouseName,
                                         EditFlatViewModel editFlatViewModelFlatName, EditOwnerViewModel editOwnerViewModelFIO);
+        public Task<string> Delete(int CityID, int StreetID, int HouseID,
+                                         int FlatID, int OwnerID);
     }
 }

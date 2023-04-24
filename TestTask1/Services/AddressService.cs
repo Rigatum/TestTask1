@@ -8,6 +8,8 @@ using TestTask1.Data;
 using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using TestTask1.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+
 namespace TestTask1.Services
 {
     public class AddressService : IAddressService
@@ -231,6 +233,30 @@ namespace TestTask1.Services
             {
                 return  "Квартира с таким собственником уже существует";
             }
+
+        }
+        public async Task<string> Delete(int CityID, int StreetID, int HouseID,
+                                            int FlatID, int OwnerID)
+        {
+            var existingCity = await _db.Cities.FindAsync(CityID);
+            var existingStreet = await _db.Streets.FindAsync(StreetID);
+            var existingHouse = await _db.Houses.FindAsync(HouseID);
+            var existingFlat = await _db.Flats.FindAsync(FlatID);
+            var existingOwner = await _db.Owners.FindAsync(OwnerID);
+
+            if (existingCity != null && existingStreet != null && existingHouse != null
+                && existingFlat != null && existingOwner != null)
+            {
+                _db.Owners.Remove(existingOwner);
+                _db.Flats.Remove(existingFlat);
+                _db.Houses.Remove(existingHouse);
+                _db.Streets.Remove(existingStreet);
+                _db.Cities.Remove(existingCity);
+                await _db.SaveChangesAsync();
+                return "Адрес удалён";
+            }
+            else
+                return "Адрес не найден";
         }
 
     }
