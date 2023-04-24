@@ -248,10 +248,34 @@ namespace TestTask1.Services
                 && existingFlat != null && existingOwner != null)
             {
                 _db.Owners.Remove(existingOwner);
-                _db.Flats.Remove(existingFlat);
-                _db.Houses.Remove(existingHouse);
-                _db.Streets.Remove(existingStreet);
-                _db.Cities.Remove(existingCity);
+                await _db.SaveChangesAsync();
+                if (!_db.Owners.Any(o=>o.FlatID == existingOwner.FlatID))
+                    _db.Flats.Remove(existingFlat);
+                else
+                {
+                    await _db.SaveChangesAsync();
+                    return "Адрес удалён";
+                }
+                await _db.SaveChangesAsync();
+                if (!_db.Flats.Any(f=>f.HouseID == existingFlat.HouseID))
+                    _db.Houses.Remove(existingHouse);
+                else
+                {
+                    await _db.SaveChangesAsync();
+                    return "Адрес удалён";
+                }
+                await _db.SaveChangesAsync();
+                if (!_db.Houses.Any(h=>h.StreetID == existingHouse.StreetID))
+                    _db.Streets.Remove(existingStreet);
+                else
+                {
+                    await _db.SaveChangesAsync();
+                    return "Адрес удалён";
+                }
+                await _db.SaveChangesAsync();
+                if (!_db.Streets.Any(s=>s.CityID == existingStreet.CityID))
+                    _db.Cities.Remove(existingCity);
+
                 await _db.SaveChangesAsync();
                 return "Адрес удалён";
             }
