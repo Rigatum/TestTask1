@@ -25,7 +25,7 @@ namespace TestTask1.Data
         {
             modelBuilder.Entity<City>().ToTable("City");
             modelBuilder.Entity<Flat>().ToTable("Flat");
-            modelBuilder.Entity<House>().ToTable("House");
+            modelBuilder.Entity<House>().ToTable("House", "FlatsNumber <= 100");
             modelBuilder.Entity<Owner>().ToTable("Owner");
             modelBuilder.Entity<Street>().ToTable("Street");
         }
