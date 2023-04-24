@@ -1,11 +1,144 @@
 @page "{ID}/{CityID}/{StreetID}/{HouseID}/{FlatID}"
 @model TestTask1.Pages.Addresses.Edit
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редактирование адреса";
+    var message = ViewData["Message"]?.ToString();
 }
 
-<h1>@ViewData["Title"]</h1>
+<form method="post">
+    <section class="container">
+        <input type="hidden" value="@Model.editCityViewModel.ID" name="editCityViewModelID"/> 
+        <input type="hidden" value="@Model.editStreetViewModel.ID" name="editStreetViewModelID"/> 
+        <input type="hidden" value="@Model.editHouseViewModel.ID" name="editHouseViewModelID"/> 
+        <input type="hidden" value="@Model.editFlatViewModel.ID" name="editFlatViewModelID"/> 
+        <input type="hidden" value="@Model.editOwnerViewModel.ID" name="editOwnerViewModelID"/> 
 
-<div>
-    
-</div>
+        <h1 class="mb-3">@ViewData["Title"]</h1>
+        @if (message == "Квартира с таким собственником уже существует")
+        {
+            <div class="alert alert-danger" role="alert">
+                @message
+            </div>
+        }
+        else if (message == "Заполните все поля")
+        {
+            <div class="alert alert-danger" role="alert">
+                @message
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(message))
+        {
+            <div class="alert alert-success" role="alert">
+                @message
+            </div>
+        }
+        <div class="form-group">
+            <div class="mb-3">
+                <div class="label">
+                    <label for="address">Адрес:</label>
+                </div>
+                <div class="value ">
+                    <input type="text" class="form-control" id="address" name="address" >
+                </div>
+                <small id="emailHelp" class="form-text text-muted">Поля ниже автоматически заполнятся после выбора адреса</small>
+            </div>
+
+            <div class="mb-3">
+                <div class="label">
+                    <label for="city">Город</label>
+                </div>
+                <div class="value ">
+                    <input type="text" class="form-control"  id="city" asp-for="editCityViewModel.CityName">
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <div class="label">
+                    <label for="street">Улица</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="street" asp-for="editStreetViewModel.StreetName">
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="label">
+                    <label for="house">Дом</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="house" asp-for="editHouseViewModel.HouseName">
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="label">
+                    <label for="flat">Квартира</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="flat" asp-for="editFlatViewModel.FlatName">
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="label">
+                    <label for="FIO_owner">ФИО собственника</label>
+                </div>
+                <div class="value">
+                    <input type="text" class="form-control"  id="FIO_owner" asp-for="editOwnerViewModel.FIO">
+                </div>
+            </div>
+            <div class="mb-3 submit-button" >
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </section>
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/css/suggestions.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/suggestions-jquery@21.12.0/dist/js/jquery.suggestions.min.js"></script>
+<script>
+    var token = "ef315753adf2b34977b4e9dbc812ebd166080a29";
+
+    function join(arr /*, separator */) {
+        var separator = arguments.length > 1 ? arguments[1] : ", ";
+        return arr.filter(function(n){return n}).join(separator);
+    }
+
+    function showCity(address) {
+        $("#city").val(join([
+            join([address.city_type, address.city], " "),
+            join([address.settlement_type, address.settlement], " ")
+        ]));
+    }
+
+    function showStreet(address) {
+        $("#street").val(
+            join([address.street_type, address.street], " ")
+        );
+    }
+
+    function showHouse(address) {
+        $("#house").val(join([
+            join([address.house_type, address.house], " "),
+            join([address.block_type, address.block], " ")
+        ]));
+    }
+
+    function showFlat(address) {
+        $("#flat").val(
+            join([address.flat_type, address.flat], " ")
+        );
+    }
+
+    function showSelected(suggestion) {
+        var address = suggestion.data;
+        showCity(address);
+        showStreet(address);
+        showHouse(address);
+        showFlat(address); 
+    }
+
+    $("#address").suggestions({
+        token: token,
+        type: "ADDRESS",
+        onSelect: showSelected
+    });
+</script>
