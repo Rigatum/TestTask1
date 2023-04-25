@@ -141,7 +141,7 @@ namespace TestTask1.Services
                 select new{
                     CityName = c.CityName, ID = c.ID,
                     StreetName = s.StreetName, StreetID = s.ID,
-                    HouseName = h.HouseName, HouseID = h.ID,
+                    HouseName = h.HouseName, HouseID = h.ID, FlatsNumber = h.FlatsNumber,
                     FlatName = f.FlatName, FlatID = f.ID,
                     FIO = o.FIO, OwnerID = o.ID};
             var listAddress = address.ToList();
@@ -150,7 +150,7 @@ namespace TestTask1.Services
             
             EditCityViewModel editCityViewModel = new EditCityViewModel() {ID = listAddress[0].ID, CityName = listAddress[0].CityName};
             EditStreetViewModel editStreetViewModel = new EditStreetViewModel() {ID = listAddress[0].StreetID, StreetName = listAddress[0].StreetName};
-            EditHouseViewModel editHouseViewModel = new EditHouseViewModel() {ID = listAddress[0].HouseID, HouseName = listAddress[0].HouseName};
+            EditHouseViewModel editHouseViewModel = new EditHouseViewModel() {ID = listAddress[0].HouseID, HouseName = listAddress[0].HouseName, FlatsNumber = listAddress[0].FlatsNumber};
             EditFlatViewModel editFlatViewModel = new EditFlatViewModel() {ID = listAddress[0].FlatID, FlatName = listAddress[0].FlatName};
             EditOwnerViewModel editOwnerViewModel = new EditOwnerViewModel() {ID = listAddress[0].OwnerID, FIO = listAddress[0].FIO};
 
