@@ -12,12 +12,36 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Населённый пункт</th>
-                <th>Улица</th>
-                <th>Дом</th>
-                <th>Колиство квартир</th>
-                <th>Квартира</th>
-                <th>Собственник</th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.CitySort">
+                        Населённый пункт
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.StreetSort">
+                        Улица
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.HouseSort">
+                        Дом
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.FlatNumberSort">
+                        Колиство квартир
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.FlatSort">
+                        Квартира
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.OwnerSort">
+                        Собственник
+                    </a>
+                </th>
             </tr>
         </thead>
         <tbody>
