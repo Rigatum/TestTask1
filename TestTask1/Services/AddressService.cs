@@ -110,16 +110,16 @@ namespace TestTask1.Services
         public List<Address> GetAddresses(string sortOrder)
         {
             var addresses = from c in _db.Cities
-            join s in _db.Streets on c.ID equals s.CityID
-            join h in _db.Houses on s.ID equals h.StreetID
-            join f in _db.Flats on h.ID equals f.HouseID
-            join o in _db.Owners on f.ID equals o.FlatID
-            select new Address{
-                CityName = c.CityName, ID = c.ID,
-                StreetName = s.StreetName, CityID = s.CityID,
-                HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
-                FlatName = f.FlatName, HouseID = f.HouseID,
-                FIO = o.FIO, FlatID = o.FlatID};
+                            join s in _db.Streets on c.ID equals s.CityID
+                            join h in _db.Houses on s.ID equals h.StreetID
+                            join f in _db.Flats on h.ID equals f.HouseID
+                            join o in _db.Owners on f.ID equals o.FlatID
+                            select new Address{
+                                CityName = c.CityName, ID = c.ID,
+                                StreetName = s.StreetName, CityID = s.CityID,
+                                HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
+                                FlatName = f.FlatName, HouseID = f.HouseID,
+                                FIO = o.FIO, FlatID = o.FlatID};
 
             switch (sortOrder)
             {
@@ -324,6 +324,24 @@ namespace TestTask1.Services
         public List<SelectListItem> GetCities()
         {
             return _db.Cities.Select(c => new SelectListItem() {Text = c.CityName, Value = c.ID.ToString()}).ToList();
+        }
+
+        public List<Address> FindAddressByCity (string searchString)
+        {
+            var addresses = from c in _db.Cities
+                            join s in _db.Streets on c.ID equals s.CityID
+                            join h in _db.Houses on s.ID equals h.StreetID
+                            join f in _db.Flats on h.ID equals f.HouseID
+                            join o in _db.Owners on f.ID equals o.FlatID
+                            where s.CityID == int.Parse(searchString)
+                            select new Address{
+                                CityName = c.CityName, ID = c.ID,
+                                StreetName = s.StreetName, CityID = s.CityID,
+                                HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
+                                FlatName = f.FlatName, HouseID = f.HouseID,
+                                FIO = o.FIO, FlatID = o.FlatID};
+
+            return addresses.OrderBy(x => x.CityName).ToList();
         }
     }
 }

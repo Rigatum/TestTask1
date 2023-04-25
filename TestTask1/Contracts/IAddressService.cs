@@ -19,5 +19,6 @@ namespace TestTask1.Contracts
         public Task<string> Delete(int CityID, int StreetID, int HouseID,
                                          int FlatID, int OwnerID);
         public List<SelectListItem> GetCities();
+        public List<Address> FindAddressByCity (string searchString);
     }
 }
