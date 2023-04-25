@@ -2,6 +2,7 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    int rows = 1;
 }
 
 <h1 class="mb-3">Список адресов</h1>
@@ -9,20 +10,21 @@
 @if (Model.Addresses != null && Model.Addresses.Any())
 {
     <table class="table">
-        <thead>
+        <thead class="table-dark">
             <tr>
-                <th>
+                <th scope="col">#</th>
+                <th scope="col">
                     <a asp-page="./Index" asp-route-SortOrder="@Model.CitySort">
                         Населённый пункт
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./Index" asp-route-SortOrder="@Model.HouseSort">
                         Дом
                     </a>
                 </th>
-                <th>
-                    <a asp-page="./Index" asp-route-SortOrder="@Model.FlatNumberSort">
+                <th scope="col">
+                    <a  asp-page="./Index" asp-route-SortOrder="@Model.FlatNumberSort">
                         Колиство квартир
                     </a>
                 </th>
@@ -32,10 +34,12 @@
             @foreach (var item in Model.Addresses)
             {
                 <tr>
+                    <th scope="row">@rows</th>
                     <td>@item.CityName</td>
                     <td>@item.HouseName</td>
                     <td>@item.FlatsNumber</td>
                 </tr>
+                rows++;
             }
         </tbody>
     </table>
