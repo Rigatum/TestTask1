@@ -10,7 +10,7 @@ namespace TestTask1.Contracts
     {
         public Task<string> Insert(AddCityViewModel addCityViewModel, AddStreetViewModel addStreetViewModel, AddHouseViewModel addHouseViewModel,
                                         AddFlatViewModel addFlatViewModel, AddOwnerViewModel addOwnerViewModel);
-        public List<Address> GetAddresses();
+        public List<Address> GetAddresses(string sortOrder);
         public void ConvertToViewModel(int ID, int CityID, int StreetID, int HouseID, int FlatID, 
                                         out List<IViewModel> list);
         public Task<string> Update(EditCityViewModel editCityViewModelCityName, EditStreetViewModel editStreetViewModelStreetName, EditHouseViewModel editHouseViewModelHouseName,
