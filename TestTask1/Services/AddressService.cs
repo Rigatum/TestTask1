@@ -122,7 +122,7 @@ namespace TestTask1.Services
                 select new Address{
                     CityName = c.CityName, ID = c.ID,
                     StreetName = s.StreetName, CityID = s.CityID,
-                    HouseName = h.HouseName, StreetID = h.StreetID,
+                    HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
                     FlatName = f.FlatName, HouseID = f.HouseID,
                     FIO = o.FIO, FlatID = o.FlatID};
             return addresses.ToList();
@@ -159,6 +159,8 @@ namespace TestTask1.Services
         public async Task<string> Update(EditCityViewModel editCityViewModel, EditStreetViewModel editStreetViewModel, EditHouseViewModel editHouseViewModel,
                                         EditFlatViewModel editFlatViewModel, EditOwnerViewModel editOwnerViewModel)
         {
+            if (editHouseViewModel.FlatsNumber < 1 || editHouseViewModel.FlatsNumber > 100 || !editHouseViewModel.FlatsNumber.HasValue)
+                return  "Введите количество квартир от 1 до 100";
             var cityDomainModel = await _db.Cities.FindAsync(editCityViewModel.ID);
             var streetDomainModel = await _db.Streets.FindAsync(editStreetViewModel.ID);
             var houseDomainModel = await _db.Houses.FindAsync(editHouseViewModel.ID);
@@ -169,7 +171,6 @@ namespace TestTask1.Services
             House? houseExist = null;
             Flat? flatExist = null;
             Owner? ownerExist = null;
-
             if (String.IsNullOrWhiteSpace(editCityViewModel.CityName) || String.IsNullOrWhiteSpace(editStreetViewModel.StreetName)
             || String.IsNullOrWhiteSpace(editHouseViewModel.HouseName) || String.IsNullOrWhiteSpace(editFlatViewModel.FlatName)
             || String.IsNullOrWhiteSpace(editOwnerViewModel.FIO))
@@ -181,6 +182,7 @@ namespace TestTask1.Services
                 cityDomainModel.CityName = editCityViewModel.CityName;
                 streetDomainModel.StreetName = editStreetViewModel.StreetName;
                 houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                houseDomainModel.FlatsNumber = editHouseViewModel.FlatsNumber;
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
@@ -193,6 +195,7 @@ namespace TestTask1.Services
                 streetDomainModel.City = cityExist;
                 streetDomainModel.StreetName = editStreetViewModel.StreetName;
                 houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                houseDomainModel.FlatsNumber = editHouseViewModel.FlatsNumber;
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
@@ -205,10 +208,11 @@ namespace TestTask1.Services
                 streetDomainModel.City = cityExist;
                 houseDomainModel.Street = streetExist;
                 houseDomainModel.HouseName = editHouseViewModel.HouseName;
+                houseDomainModel.FlatsNumber = editHouseViewModel.FlatsNumber;
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
-                return  "Номер дом был обновлён";
+                return  "Номер дома был обновлён";
             }
 
             flatExist = await _db.Flats.FirstOrDefaultAsync(f => f.FlatName == editFlatViewModel.FlatName && f.HouseID == houseExist.ID);
@@ -234,11 +238,19 @@ namespace TestTask1.Services
                 await _db.SaveChangesAsync();
                 return  "Собственник был обновлён";
             }
-            else
+            else if (houseExist.FlatsNumber != editHouseViewModel.FlatsNumber)
             {
-                return  "Квартира с таким собственником уже существует";
+                streetDomainModel.City = cityExist;
+                houseDomainModel.Street = streetExist;
+                houseDomainModel.FlatsNumber = editHouseViewModel.FlatsNumber;
+                flatDomainModel.House = houseExist;
+                ownerDomainModel.Flat = flatExist;
+                ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                return  "Количество квартир в доме было обновлено";
             }
-
+            else
+                return  "Такой адрес уже имеется";
         }
         public async Task<string> Delete(int CityID, int StreetID, int HouseID,
                                             int FlatID, int OwnerID)
