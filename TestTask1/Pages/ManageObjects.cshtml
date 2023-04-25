@@ -1,53 +1,56 @@
 ﻿@page
 @using TestTask1.Models;
-
+@{
+    int rows = 1;
+}
 @model ManageObjectsModel
 
 <h1 class="mb-3">Список адресов</h1>
 
-<a href="/Addresses/Add" class="btn btn-primary" role="button">Добавить адрес</a>
-
 @if (Model.Addresses != null && Model.Addresses.Any())
 {
     <table class="table">
-        <thead>
+        <thead class="table-dark">
             <tr>
-                <th>
+                <th scope="col">#</th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.CitySort">
                         Населённый пункт
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.StreetSort">
                         Улица
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.HouseSort">
                         Дом
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.FlatNumberSort">
                         Колиство квартир
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.FlatSort">
                         Квартира
                     </a>
                 </th>
-                <th>
+                <th scope="col">
                     <a asp-page="./ManageObjects" asp-route-SortOrder="@Model.OwnerSort">
                         Собственник
                     </a>
                 </th>
+                <th scope="col"> </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Addresses)
             {
                 <tr>
+                    <th scope="row">@rows</th>
                     <td>@item.CityName</td>
                     <td>@item.StreetName</td>
                     <td>@item.HouseName</td>
@@ -56,9 +59,10 @@
                     <td>@item.FIO</td>
                     <td>
                         <a href="/Addresses/Edit/@item.ID/@item.CityID/@item.StreetID/@item.HouseID/@item.FlatID"
-                        class="btn btn-dark">Edit</a>
+                        class="btn btn-dark">Редактировать</a>
                     </td>
                 </tr>
+                rows++;
             }
         </tbody>
     </table>
