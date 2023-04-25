@@ -14,13 +14,13 @@
         <input type="hidden" value="@Model.editOwnerViewModel.ID" name="editOwnerViewModelID"/> 
 
         <h1 class="mb-3">@ViewData["Title"]</h1>
-        @if (message == "Квартира с таким собственником уже существует")
+        @if (message == "Такой адрес уже имеется")
         {
             <div class="alert alert-danger" role="alert">
                 @message
             </div>
         }
-        else if (message == "Заполните все поля" || message == "Адрес не найден")
+        else if (message == "Заполните все поля" || message == "Адрес не найден" || message == "Введите количество квартир от 1 до 100")
         {
             <div class="alert alert-danger" role="alert">
                 @message
