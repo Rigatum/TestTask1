@@ -9,6 +9,7 @@ namespace TestTask1.Models.ViewModels
     {
         public int ID { get; set; }
         public string HouseName { get; set; }
+        public int? FlatsNumber { get; set;}
         public int StreetID { get; set; }
     }
 }
