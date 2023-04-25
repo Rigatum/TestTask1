@@ -26,7 +26,6 @@ public class ManageObjectsModel : PageModel
     public string FlatNumberSort { get; set; }
     public string FlatSort { get; set; }
     public string OwnerSort { get; set; }
-    public string CurrentSort { get; set; }
     public void OnGet(string sortOrder)
     {
         CitySort = sortOrder=="city_desc" ? "city_asc" : "city_desc";
