@@ -10,6 +10,7 @@ using TestTask1.Models.Domain;
 using TestTask1.Models.ViewModels;
 using TestTask1.Pages;
 using TestTask1.Data;
+
 namespace TestTask1.Pages.Addresses
 {
     public class Add : PageModel
@@ -42,9 +43,17 @@ namespace TestTask1.Pages.Addresses
 
         public async Task<IActionResult> OnPostAsync()
         {
-            ViewData["Message"] = await _addressService.Insert(addCityViewModel.CityName, addStreetViewModel.StreetName, 
-                                                                addHouseViewModel.HouseName, addFlatViewModel.FlatName, 
-                                                                addOwnerViewModel.FIO);
+            if (addHouseViewModel.FlatsNumber < 0 || addHouseViewModel.FlatsNumber > 100)
+            {
+                ViewData["Message"] = "Количество квартир в доме должно быть от 1 до 100";
+                return Page();
+            }
+            else if(ModelState.IsValid)
+                ViewData["Message"] = await _addressService.Insert(addCityViewModel, addStreetViewModel, 
+                                                                addHouseViewModel, addFlatViewModel, 
+                                                                addOwnerViewModel);
+            else
+                ViewData["Message"] = "Заполните все поля, кроме адреса. Количество квартир должно быть числовым значением";
             return Page();
         }
     }
