@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TestTask1.Models;
 using TestTask1.Contracts;
 using TestTask1.Data;
 using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using TestTask1.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace TestTask1.Services
 {
@@ -112,20 +106,47 @@ namespace TestTask1.Services
                 return  "Квартира с таким собственником уже существует";
         }
 
-        public List<Address> GetAddresses()
+        public List<Address> GetAddresses(string sortOrder)
         {
             var addresses = from c in _db.Cities
-                join s in _db.Streets on c.ID equals s.CityID
-                join h in _db.Houses on s.ID equals h.StreetID
-                join f in _db.Flats on h.ID equals f.HouseID
-                join o in _db.Owners on f.ID equals o.FlatID
-                select new Address{
-                    CityName = c.CityName, ID = c.ID,
-                    StreetName = s.StreetName, CityID = s.CityID,
-                    HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
-                    FlatName = f.FlatName, HouseID = f.HouseID,
-                    FIO = o.FIO, FlatID = o.FlatID};
-            return addresses.ToList();
+            join s in _db.Streets on c.ID equals s.CityID
+            join h in _db.Houses on s.ID equals h.StreetID
+            join f in _db.Flats on h.ID equals f.HouseID
+            join o in _db.Owners on f.ID equals o.FlatID
+            select new Address{
+                CityName = c.CityName, ID = c.ID,
+                StreetName = s.StreetName, CityID = s.CityID,
+                HouseName = h.HouseName, StreetID = h.StreetID, FlatsNumber = h.FlatsNumber,
+                FlatName = f.FlatName, HouseID = f.HouseID,
+                FIO = o.FIO, FlatID = o.FlatID};
+
+            switch (sortOrder)
+            {
+                case "city_desc":
+                    return addresses.OrderByDescending(x => x.CityName).ToList();
+                case "street_desc":
+                    return addresses.OrderByDescending(x => x.StreetName).ToList();
+                case "house_desc":
+                    return addresses.OrderByDescending(x => x.HouseName).ToList();
+                case "flat_number_desc":
+                    return addresses.OrderByDescending(x => x.FlatsNumber).ToList();
+                case "flat_desc":
+                    return addresses.OrderByDescending(x => x.FlatName).ToList();
+                case "owner_desc":
+                    return addresses.OrderByDescending(x => x.FIO).ToList();
+                case "street_asc":
+                    return addresses.OrderBy(x => x.StreetName).ToList();
+                case "house_asc":
+                    return addresses.OrderBy(x => x.HouseName).ToList();
+                case "flat_number_asc":
+                    return addresses.OrderBy(x => x.FlatsNumber).ToList();
+                case "flat_asc":
+                    return addresses.OrderBy(x => x.FlatName).ToList();
+                case "owner_asc":
+                    return addresses.OrderBy(x => x.FIO).ToList();
+                default:
+                    return addresses.OrderBy(x => x.CityName).ToList();
+            }
         }
         public void ConvertToViewModel(int ID, int CityID, int StreetID, int HouseID, int FlatID, 
                                         out List<IViewModel> list)
