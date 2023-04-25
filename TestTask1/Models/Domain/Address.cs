@@ -12,6 +12,7 @@ namespace TestTask1.Models.Domain
         public string StreetName { get; set; }
         public int CityID { get; set; }
         public string HouseName { get; set; }
+        public int? FlatsNumber { get; set; }
         public int StreetID { get; set; }
         public string FlatName { get; set; }
         public int HouseID { get; set; }
