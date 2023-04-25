@@ -8,8 +8,8 @@ namespace TestTask1.Contracts
 {
     public interface IAddressService
     {
-        public Task<string> Insert(string addCityViewModelCityName, string addStreetViewModelStreetName, string addHouseViewModelHouseName,
-                                   string addFlatViewModelFlatName, string addOwnerViewModelFIO);
+        public Task<string> Insert(AddCityViewModel addCityViewModel, AddStreetViewModel addStreetViewModel, AddHouseViewModel addHouseViewModel,
+                                        AddFlatViewModel addFlatViewModel, AddOwnerViewModel addOwnerViewModel);
         public List<Address> GetAddresses();
         public void ConvertToViewModel(int ID, int CityID, int StreetID, int HouseID, int FlatID, 
                                         out List<IViewModel> list);
