@@ -43,6 +43,12 @@ namespace TestTask1.Pages.Addresses
 
         public async Task<IActionResult> OnPostAsync()
         {
+            addCityViewModel.CityName = addCityViewModel.CityName.Trim();
+            addStreetViewModel.StreetName = addStreetViewModel.StreetName.Trim();
+            addHouseViewModel.HouseName = addHouseViewModel.HouseName.Trim();
+            addFlatViewModel.FlatName = addFlatViewModel.FlatName.Trim();
+            addOwnerViewModel.FIO = addOwnerViewModel.FIO.Trim();
+
             if (addHouseViewModel.FlatsNumber < 0 || addHouseViewModel.FlatsNumber > 100)
             {
                 ViewData["Message"] = "Количество квартир в доме должно быть от 1 до 100";
