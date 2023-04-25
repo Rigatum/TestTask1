@@ -8,13 +8,8 @@
 <form method="post">
     <section class="container">
         <h1 class="mb-3">@ViewData["Title"]</h1>
-        @if (message == "Квартира с таким собственником уже существует")
-        {
-            <div class="alert alert-danger" role="alert">
-                @message
-            </div>
-        }
-        else if (message == "Заполните все поля")
+        @if (message == "Квартира с таким собственником уже существует" || message == "Количество квартир в доме должно быть от 1 до 100"  
+            || message == "Заполните все поля, кроме адреса." || message == "При добавлении нового дома, количество квартир должно быть заполнено")
         {
             <div class="alert alert-danger" role="alert">
                 @message
@@ -26,6 +21,7 @@
                 @message
             </div>
         }
+
         <div class="form-group">
             <div class="mb-3">
                 <div class="label">
@@ -34,7 +30,7 @@
                 <div class="value ">
                     <input type="text" class="form-control" id="address" name="address" >
                 </div>
-                <small id="emailHelp" class="form-text text-muted">Поля ниже автоматически заполнятся после выбора адреса</small>
+                <small id="emailHelp" class="form-text text-muted">Поля ниже автоматически заполнятся после выбора адреса, кроме количества квартир</small>
             </div>
 
             <div class="mb-3">
@@ -69,6 +65,7 @@
                 <div class="value">
                     <input type="text" class="form-control"  id="flatsNumber" asp-for="addHouseViewModel.FlatsNumber">
                 </div>
+                <small id="emailHelp" class="form-text text-muted">При добавлении квартиры и собственника к существующему дому, поле можно оставить пустым</small>
             </div>
             <div class="mb-3">
                 <div class="label">
