@@ -20,5 +20,6 @@ namespace TestTask1.Contracts
                                          int FlatID, int OwnerID);
         public List<SelectListItem> GetCities();
         public List<Address> FindAddressByCity (string searchString);
+        public List<Address> FindAddressByHouse (int HouseID);
     }
 }
