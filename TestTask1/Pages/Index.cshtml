@@ -12,7 +12,7 @@
         <div class="form-actions no-color">
             <p>
                 Найти все адреса в населённом пункте:
-                <select class="btn cities" name="cities" class="form-control" asp-items="Model.Cities" value="@Model.CurrentFilter"></select>
+                <select class="btn cities" name="searchString" class="form-control" asp-items="Model.Cities"></select>
                 <input type="submit" value="Search" class="btn btn-primary" /> |
                 <a asp-page="./Index">Вернуться к исходному списку</a>
             </p>
