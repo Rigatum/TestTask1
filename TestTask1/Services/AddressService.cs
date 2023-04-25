@@ -21,24 +21,19 @@ namespace TestTask1.Services
             _db = db;
         }
 
-        public async Task<string> Insert(string addCityViewModelCityName, string addStreetViewModelStreetName, string addHouseViewModelHouseName,
-                                        string addFlatViewModelFlatName, string addOwnerViewModelFIO)
+        public async Task<string> Insert(AddCityViewModel addCityViewModel, AddStreetViewModel addStreetViewModel, AddHouseViewModel addHouseViewModel,
+                                        AddFlatViewModel addFlatViewModel, AddOwnerViewModel addOwnerViewModel)
         {
-            var cityDomainModel = new City {CityName = addCityViewModelCityName};
-            var streetDomainModel = new Street {StreetName = addStreetViewModelStreetName, City = cityDomainModel};
-            var houseDomainModel = new House {HouseName = addHouseViewModelHouseName, Street = streetDomainModel};
-            var flatDomainModel = new Flat {FlatName = addFlatViewModelFlatName, House = houseDomainModel};
-            var ownerDomainModel = new Owner {FIO = addOwnerViewModelFIO, Flat = flatDomainModel};
+            var cityDomainModel = new City {CityName = addCityViewModel.CityName};
+            var streetDomainModel = new Street {StreetName = addStreetViewModel.StreetName, City = cityDomainModel};
+            var houseDomainModel = new House {HouseName = addHouseViewModel.HouseName, Street = streetDomainModel, FlatsNumber = addHouseViewModel.FlatsNumber};
+            var flatDomainModel = new Flat {FlatName = addFlatViewModel.FlatName, House = houseDomainModel};
+            var ownerDomainModel = new Owner {FIO = addOwnerViewModel.FIO, Flat = flatDomainModel};
             City? cityExist = null;
             Street? streetExist = null;
             House? houseExist = null;
             Flat? flatExist = null;
             Owner? ownerExist = null;
-
-            if (String.IsNullOrWhiteSpace(addCityViewModelCityName) || String.IsNullOrWhiteSpace(addStreetViewModelStreetName)
-            || String.IsNullOrWhiteSpace(addHouseViewModelHouseName) || String.IsNullOrWhiteSpace(addFlatViewModelFlatName)
-            || String.IsNullOrWhiteSpace(addOwnerViewModelFIO))
-                return "Заполните все поля";
 
             cityExist = await _db.Cities.FirstOrDefaultAsync(c => c.CityName == cityDomainModel.CityName);
             if (cityExist != null)
@@ -52,6 +47,10 @@ namespace TestTask1.Services
             
             if (cityExist == null) //Добавление  города, улицы, дома, квартиры и собственника
             {
+                if (houseDomainModel.FlatsNumber == null)
+                {
+                    return  "При добавлении нового дома, количество квартир должно быть заполнено";
+                }
                 System.Console.WriteLine("Города нет");
                 await _db.Cities.AddAsync(cityDomainModel);
                 await _db.Streets.AddAsync(streetDomainModel);
@@ -63,6 +62,10 @@ namespace TestTask1.Services
             }
             else if (cityExist != null && streetExist == null && houseExist == null && flatExist == null && ownerExist == null) // Добавление улицы, дома, квартиры и собственника
             {
+                if (houseDomainModel.FlatsNumber == null)
+                {
+                    return  "При добавлении нового дома, количество квартир должно быть заполнено";
+                }
                 streetDomainModel.City = cityExist;
                 await _db.Streets.AddAsync(streetDomainModel);
                 await _db.Houses.AddAsync(houseDomainModel);
@@ -73,6 +76,10 @@ namespace TestTask1.Services
             }
             else if (cityExist != null && streetExist != null && houseExist == null && flatExist == null && ownerExist == null) // Добавление дома, квартиры и собственника
             {
+                if (houseDomainModel.FlatsNumber == null)
+                {
+                    return  "При добавлении нового дома, количество квартир должно быть заполнено";
+                }
                 streetDomainModel.City = cityExist;
                 houseDomainModel.Street = streetExist;
                 await _db.Houses.AddAsync(houseDomainModel);
@@ -102,9 +109,7 @@ namespace TestTask1.Services
                 return  "Собственник был добавлен к существующей квартире";
             }
             else
-            {
                 return  "Квартира с таким собственником уже существует";
-            }
         }
 
         public List<Address> GetAddresses()
