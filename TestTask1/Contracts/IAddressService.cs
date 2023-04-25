@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TestTask1.Models.Domain;
 using TestTask1.Models.ViewModels;
 namespace TestTask1.Contracts
@@ -17,5 +18,6 @@ namespace TestTask1.Contracts
                                         EditFlatViewModel editFlatViewModelFlatName, EditOwnerViewModel editOwnerViewModelFIO);
         public Task<string> Delete(int CityID, int StreetID, int HouseID,
                                          int FlatID, int OwnerID);
+        public List<SelectListItem> GetCities();
     }
 }

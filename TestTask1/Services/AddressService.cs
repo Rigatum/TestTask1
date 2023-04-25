@@ -3,6 +3,7 @@ using TestTask1.Data;
 using TestTask1.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using TestTask1.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TestTask1.Services
 {
@@ -320,6 +321,9 @@ namespace TestTask1.Services
             else
                 return "Адрес не найден";
         }
-
+        public List<SelectListItem> GetCities()
+        {
+            return _db.Cities.Select(c => new SelectListItem() {Text = c.CityName, Value = c.ID.ToString()}).ToList();
+        }
     }
 }
