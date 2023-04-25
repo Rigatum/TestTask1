@@ -221,6 +221,9 @@ namespace TestTask1.Services
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
+                if (!_db.Streets.Any(s => s.CityID == editCityViewModel.ID))
+                    _db.Cities.Remove(cityDomainModel);
+                await _db.SaveChangesAsync();
                 return  "Улица была обновлена";
             }
 
@@ -234,6 +237,11 @@ namespace TestTask1.Services
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
+                if (!_db.Houses.Any(h => h.StreetID == editStreetViewModel.ID))
+                    _db.Streets.Remove(streetDomainModel);
+                if (!_db.Streets.Any(s => s.CityID == editCityViewModel.ID))
+                    _db.Cities.Remove(cityDomainModel);
+                await _db.SaveChangesAsync();
                 return  "Номер дома был обновлён";
             }
 
@@ -246,6 +254,13 @@ namespace TestTask1.Services
                 flatDomainModel.FlatName = editFlatViewModel.FlatName;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
                 await _db.SaveChangesAsync();
+                if (!_db.Flats.Any(f => f.HouseID == editHouseViewModel.ID))
+                    _db.Houses.Remove(houseDomainModel);
+                if (!_db.Houses.Any(h => h.StreetID == editStreetViewModel.ID))
+                    _db.Streets.Remove(streetDomainModel);
+                if (!_db.Streets.Any(s => s.CityID == editCityViewModel.ID))
+                    _db.Cities.Remove(cityDomainModel);
+                await _db.SaveChangesAsync();
                 return  "Номер квартиры был обновлён";
             }
 
@@ -257,6 +272,15 @@ namespace TestTask1.Services
                 flatDomainModel.House = houseExist;
                 ownerDomainModel.Flat = flatExist;
                 ownerDomainModel.FIO = editOwnerViewModel.FIO;
+                await _db.SaveChangesAsync();
+                if (!_db.Owners.Any(o => o.FlatID == editFlatViewModel.ID))
+                    _db.Flats.Remove(flatDomainModel);
+                if (!_db.Flats.Any(f => f.HouseID == editHouseViewModel.ID))
+                    _db.Flats.Remove(flatDomainModel);
+                if (!_db.Houses.Any(h => h.StreetID == editStreetViewModel.ID))
+                    _db.Streets.Remove(streetDomainModel);
+                if (!_db.Streets.Any(s => s.CityID == editCityViewModel.ID))
+                    _db.Cities.Remove(cityDomainModel);
                 await _db.SaveChangesAsync();
                 return  "Собственник был обновлён";
             }
