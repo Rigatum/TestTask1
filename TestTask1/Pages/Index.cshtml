@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id?}/{handler?}"
 @model IndexModel
 @{
     int rows = 1;
@@ -28,6 +28,11 @@
                     </a>
                 </th>
                 <th scope="col">
+                    <a asp-page="./Index" asp-route-SortOrder="@Model.StreetSort">
+                        Улица
+                    </a>
+                </th>
+                <th scope="col">
                     <a asp-page="./Index" asp-route-SortOrder="@Model.HouseSort">
                         Дом
                     </a>
@@ -45,7 +50,8 @@
                 <tr>
                     <th scope="row">@rows</th>
                     <td>@item.CityName</td>
-                    <td>@item.HouseName</td>
+                    <td>@item.StreetName</td>
+                    <td><a asp-route-id=@item.HouseID asp-page-handler="ByHouse" >@item.HouseName</a></td>
                     <td>@item.FlatsNumber</td>
                 </tr>
                 rows++;
