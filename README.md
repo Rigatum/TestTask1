@@ -1,2 +1,11 @@
 # TestTask1
-Razor Page, EF Core, PostgreSQL, Dadata API, Docker compose
+ASP.NET Core, Razor Page, EF Core, PostgreSQL, Dadata API, Docker compose.
+# How to run
+git clone https://github.com/Rigatum/TestTask1.git  <br>
+cd TestTask1  <br>
+docker-compose build  <br>
+docker-compose up -d  <br>
+http://localhost/80  <br>
+
+При первом запуске после поднятия базы и веб приложения в докере - приложение не будет работать примерно минуту, <br>
+так как будет работать sql script, который вносит начальные данные в базу (1000 инсертов).
