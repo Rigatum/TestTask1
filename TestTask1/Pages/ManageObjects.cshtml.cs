@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using TestTask1.Data;
 using TestTask1.Models.Domain;
 using TestTask1.Contracts;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace TestTask1.Pages;
 
 public class ManageObjectsModel : PageModel
@@ -26,16 +28,28 @@ public class ManageObjectsModel : PageModel
     public string FlatNumberSort { get; set; }
     public string FlatSort { get; set; }
     public string OwnerSort { get; set; }
-    public void OnGet(string sortOrder)
+    public List<SelectListItem> Cities { get; set; }
+    public void OnGet(string sortOrder, string searchString)
     {
+        Cities = _addressService.GetCities();
+        if (searchString != null)
+            Addresses = _addressService.FindAddressByCity(searchString);
+        else 
+        {
         CitySort = sortOrder=="city_desc" ? "city_asc" : "city_desc";
         StreetSort = sortOrder=="street_desc" ? "street_asc" : "street_desc";
         HouseSort = sortOrder=="house_desc" ? "house_asc" : "house_desc";
         FlatNumberSort = sortOrder=="flat_number_desc" ? "flat_number_asc" : "flat_number_desc";
         FlatSort = sortOrder=="flat_desc" ? "flat_asc" : "flat_desc";
         OwnerSort = sortOrder=="owner_desc" ? "owner_asc" : "owner_desc";
-
         Addresses = _addressService.GetAddresses(sortOrder);
+        }
+    }
+    public void OnGetByHouse()
+    {
+        Cities = _addressService.GetCities();
+        string s = (string)RouteData.Values["id"];
+        Addresses = _addressService.FindAddressByHouse(int.Parse(s));
     }
 }
 
