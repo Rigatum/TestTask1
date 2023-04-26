@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id?}/{handler?}"
 @using TestTask1.Models;
 @{
     int rows = 1;
@@ -9,6 +9,16 @@
 
 @if (Model.Addresses != null && Model.Addresses.Any())
 {
+    <form asp-page="./ManageObjects" method="get">
+        <div class="form-actions no-color">
+            <p>
+                Найти все адреса в населённом пункте:
+                <select class="btn cities" name="searchString" class="form-control" asp-items="Model.Cities"></select>
+                <input type="submit" value="Search" class="btn btn-primary" />
+                <a asp-page="./ManageObjects">Вернуться к исходному списку</a>
+            </p>
+        </div>
+    </form>
     <table class="table">
         <thead class="table-dark">
             <tr>
@@ -53,7 +63,7 @@
                     <th scope="row">@rows</th>
                     <td>@item.CityName</td>
                     <td>@item.StreetName</td>
-                    <td>@item.HouseName</td>
+                    <td><a asp-route-id=@item.HouseID asp-page-handler="ByHouse" >@item.HouseName</a></td>
                     <td>@item.FlatsNumber</td>
                     <td>@item.FlatName</td>
                     <td>@item.FIO</td>
