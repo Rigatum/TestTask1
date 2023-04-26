@@ -28,7 +28,8 @@ public class IndexModel : PageModel
         Cities = _addressService.GetCities();
         if (searchString != null)
             Addresses = _addressService.FindAddressByCity(searchString);
-        else {
+        else 
+        {
             CitySort = sortOrder=="city_desc" ? "city_asc" : "city_desc";
             StreetSort = sortOrder=="street_desc" ? "street_asc" : "street_desc";
             HouseSort = sortOrder=="house_desc" ? "house_asc" : "house_desc";
