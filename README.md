@@ -1,5 +1,5 @@
 # TestTask1
-ASP.NET Core, Razor Page, EF Core, PostgreSQL, Dadata API, Docker compose.
+ASP.NET Core, Razor Page, EF Core, PostgreSQL, DaData API, Docker compose.
 # How to run
 git clone https://github.com/Rigatum/TestTask1.git  <br>
 cd TestTask1  <br>
