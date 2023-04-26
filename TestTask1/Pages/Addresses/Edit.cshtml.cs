@@ -49,11 +49,6 @@ namespace TestTask1.Pages.Addresses
             editHouseViewModel.ID = editHouseViewModelID;
             editFlatViewModel.ID = editFlatViewModelID;
             editOwnerViewModel.ID = editOwnerViewModelID;
-            editCityViewModel.CityName = editCityViewModel.CityName.Trim();
-            editStreetViewModel.StreetName = editStreetViewModel.StreetName.Trim();
-            editHouseViewModel.HouseName = editHouseViewModel.HouseName.Trim();
-            editFlatViewModel.FlatName = editFlatViewModel.FlatName.Trim();
-            editOwnerViewModel.FIO = editOwnerViewModel.FIO.Trim();
             ViewData["Message"] = await _addressSerivce.Update(editCityViewModel, editStreetViewModel, editHouseViewModel, editFlatViewModel, editOwnerViewModel);
             return Page();
         }

@@ -197,7 +197,11 @@ namespace TestTask1.Services
             || String.IsNullOrWhiteSpace(editHouseViewModel.HouseName) || String.IsNullOrWhiteSpace(editFlatViewModel.FlatName)
             || String.IsNullOrWhiteSpace(editOwnerViewModel.FIO))
                 return "Заполните все поля";
-
+            editCityViewModel.CityName = editCityViewModel.CityName.Trim();
+            editStreetViewModel.StreetName = editStreetViewModel.StreetName.Trim();
+            editHouseViewModel.HouseName = editHouseViewModel.HouseName.Trim();
+            editFlatViewModel.FlatName = editFlatViewModel.FlatName.Trim();
+            editOwnerViewModel.FIO = editOwnerViewModel.FIO.Trim();
             cityExist = await _db.Cities.FirstOrDefaultAsync(c => c.CityName == editCityViewModel.CityName);
             if (cityExist == null)
             {
