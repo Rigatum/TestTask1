@@ -43,21 +43,22 @@ namespace TestTask1.Pages.Addresses
 
         public async Task<IActionResult> OnPostAsync()
         {
-            addCityViewModel.CityName = addCityViewModel.CityName.Trim();
-            addStreetViewModel.StreetName = addStreetViewModel.StreetName.Trim();
-            addHouseViewModel.HouseName = addHouseViewModel.HouseName.Trim();
-            addFlatViewModel.FlatName = addFlatViewModel.FlatName.Trim();
-            addOwnerViewModel.FIO = addOwnerViewModel.FIO.Trim();
-
             if (addHouseViewModel.FlatsNumber < 0 || addHouseViewModel.FlatsNumber > 100)
             {
                 ViewData["Message"] = "Количество квартир в доме должно быть от 1 до 100";
                 return Page();
             }
             else if(ModelState.IsValid)
+            {
+                addCityViewModel.CityName = addCityViewModel.CityName.Trim();
+                addStreetViewModel.StreetName = addStreetViewModel.StreetName.Trim();
+                addHouseViewModel.HouseName = addHouseViewModel.HouseName.Trim();
+                addFlatViewModel.FlatName = addFlatViewModel.FlatName.Trim();
+                addOwnerViewModel.FIO = addOwnerViewModel.FIO.Trim();
                 ViewData["Message"] = await _addressService.Insert(addCityViewModel, addStreetViewModel, 
                                                                 addHouseViewModel, addFlatViewModel, 
                                                                 addOwnerViewModel);
+            }
             else
                 ViewData["Message"] = "Заполните все поля, кроме адреса. Количество квартир должно быть числовым значением";
             return Page();
