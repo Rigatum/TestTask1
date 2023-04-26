@@ -5,6 +5,7 @@ using Dadata;
 using TestTask1.Models;
 using TestTask1.Services;
 using TestTask1.Contracts;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,20 @@ builder.Services.AddDbContext<ApplicationContext>(options =>
 builder.Services.AddScoped<IAddressService, AddressService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
